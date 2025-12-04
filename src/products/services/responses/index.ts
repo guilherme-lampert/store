@@ -1,1 +1,1 @@
-export * from './find-products.response';
+export * from './find-product.response';

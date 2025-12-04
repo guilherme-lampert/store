@@ -1,6 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
+import { FindProductResponse, FindProductsApiResponse } from './responses';
 
 @Injectable()
 export class FindProductsService {
