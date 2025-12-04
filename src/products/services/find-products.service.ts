@@ -1,8 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom } from 'rxjs';
-import { AxiosError } from 'axios';
-import { FindProductsApiResponse, FindProductResponse } from './responses';
+import { catchError, firstValueFrom, throwError } from 'rxjs';
 
 @Injectable()
 export class FindProductsService {
@@ -13,9 +11,11 @@ export class FindProductsService {
       this.httpService
         .get<FindProductsApiResponse>('https://dummyjson.com/products?limit=0')
         .pipe(
-          catchError((error: AxiosError) => {
-            throw 'An error happened!';
-          }),
+          catchError(() =>
+            throwError(
+              () => new InternalServerErrorException('Ocorreu um erro'),
+            ),
+          ),
         ),
     );
     return FindProductResponse.fromList(data);
